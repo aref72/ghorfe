@@ -3,17 +3,22 @@
 namespace app\controllers;
 
 use app\models\User;
+use yii\data\ActiveDataProvider;
 
 class UserController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        // $userModel = User::find()->where(['is_active' => 0])->orderBy('id desc')->all();
-        $userModel = User::findOne(1);
-        var_dump($userModel);
-        die();
+        $userModel = User::find();
+        $activeDataProvider = new ActiveDataProvider([
+            'query' => $userModel,
+            'pagination' => [
+                'pageSize'=>5
+            ]
+        ]);
+        
         return $this->render('index',[
-            'userModel' => $userModel
+            'activeDataProvider' => $activeDataProvider
         ]);
     }
 

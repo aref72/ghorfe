@@ -1,12 +1,15 @@
 <?php
 /* @var $this yii\web\View */
+
+use yii\grid\GridView;
+
 ?>
 <h1>user/index</h1>
 
 <p>
 <?php
-    for ($i=0; $i < count($userModel) ; $i++) { 
-        echo $userModel[$i]->username.'<br>';
-    }
+   echo GridView::widget([
+        'dataProvider' => $activeDataProvider
+    ])
 ?>
 </p>
