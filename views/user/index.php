@@ -2,9 +2,9 @@
 /* @var $this yii\web\View */
 
 use yii\grid\GridView;
-
+use yii\helpers\Url;
 ?>
-<h1>user/index</h1>
+<a href="<?= Url::to(['create']) ?>" class="btn btn-success">کاربر جدید</a>
 
 <p>
 <?php

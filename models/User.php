@@ -28,7 +28,8 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['is_active'], 'integer'],
+            [['is_active','username','password'], 'required'],
+            [['is_active'], 'boolean'],
             [['username'], 'string', 'max' => 50],
             [['password'], 'string', 'max' => 200],
         ];
