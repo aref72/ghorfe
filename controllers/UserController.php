@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\User;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\web\BadRequestHttpException;
 
 class UserController extends \yii\web\Controller
 {
@@ -37,20 +38,32 @@ class UserController extends \yii\web\Controller
         ]);
     }
 
-    public function actionUpdate()
+    public function actionUpdate($id)
     {
-        $userModel = User::findOne(6);
-        $userModel->username = 'mahdi';
-        $userModel->password = '12345678';
-        $userModel->is_active = 0;
-        $userModel->save();
+        $userModel = User::findOne($id);
+        if($userModel->load(Yii::$app->request->post())){
+            if($userModel->save()){
+                return $this->redirect('?r=user/index');
+            }
+        }
+        // $userModel->save();
+        return $this->render('update',[
+            'userModel' => $userModel
+        ]);
     }
 
-    public function actionDelete()
+    public function actionDelete($id)
     {
-        $userModel = User::findOne(6);
-        
-        $userModel->delete();
+        if(!is_numeric($id)){
+            throw new BadRequestHttpException("شناسه باید عددی باشد.");
+        }
+        $userModel = User::findOne($id);
+        if(!isset($userModel)){
+            throw new BadRequestHttpException("هیچ رکوردی پیدا نشد.");
+        }
+        if($userModel->delete()){
+            return $this->redirect('?r=user/index');
+        }
     }
     
 }
